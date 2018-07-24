@@ -14,6 +14,8 @@ class DocumentsViewController: UIViewController, UITableViewDataSource, UITableV
     let dateFormatter = DateFormatter()
     var documents = [Document]()
     
+    var category: Category?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -118,19 +120,22 @@ class DocumentsViewController: UIViewController, UITableViewDataSource, UITableV
             deleteDocument(at: indexPath)
         }
     }
-    
-    /*
-     // Approach 2: using editing actions
-     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-     let delete = UITableViewRowAction(style: .destructive, title: "Delete") {
-     action, index in
-     self.deleteDocument(at: indexPath)  // self is required because inside of closure
-     }
-     
-     return [delete]
-     }
-     */
-    
-    
 }
 
+extension DocumentsViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = documentsTableView.dequeueReusableCell(withIdentifier: "documentCell", for: indexPath)
+        
+        return cell
+    }
+}
+
+extension DocumentsViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "showDocument", sender: self)
+    }
+}
